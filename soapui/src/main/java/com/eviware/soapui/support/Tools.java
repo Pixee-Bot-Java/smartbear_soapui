@@ -19,6 +19,7 @@ package com.eviware.soapui.support;
 import com.eviware.soapui.impl.wsdl.support.HelpUrls;
 import com.eviware.soapui.support.editor.inspectors.attachments.ContentTypeHandler;
 import com.eviware.soapui.support.types.StringToStringMap;
+import io.github.pixee.security.SystemCommand;
 import junit.framework.ComparisonFailure;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
@@ -256,19 +257,19 @@ public class Tools {
                     }
                 }
 
-                Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + url);
+                SystemCommand.runCommand(Runtime.getRuntime(), "rundll32 url.dll,FileProtocolHandler " + url);
             } else { // assume Unix or Linux
                 String[] browsers = {"firefox", "opera", "konqueror", "epiphany", "mozilla", "netscape"};
                 String browser = null;
                 for (int count = 0; count < browsers.length && browser == null; count++) {
-                    if (Runtime.getRuntime().exec(new String[]{"which", browsers[count]}).waitFor() == 0) {
+                    if (SystemCommand.runCommand(Runtime.getRuntime(), new String[]{"which", browsers[count]}).waitFor() == 0) {
                         browser = browsers[count];
                     }
                 }
                 if (browser == null) {
                     throw new Exception("Could not find web browser");
                 } else {
-                    Runtime.getRuntime().exec(new String[]{browser, url});
+                    SystemCommand.runCommand(Runtime.getRuntime(), new String[]{browser, url});
                 }
             }
         } catch (Exception e) {
