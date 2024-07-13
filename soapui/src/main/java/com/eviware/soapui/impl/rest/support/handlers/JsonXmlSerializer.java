@@ -17,6 +17,7 @@
 package com.eviware.soapui.impl.rest.support.handlers;
 
 import com.eviware.soapui.SoapUI;
+import io.github.pixee.security.BoundedLineReader;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
@@ -414,7 +415,7 @@ public class JsonXmlSerializer {
             StringBuffer xml = new StringBuffer();
             BufferedReader in = new BufferedReader(new InputStreamReader(stream));
             String line = null;
-            while ((line = in.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(in, 5_000_000)) != null) {
                 xml.append(line);
             }
             return read(xml.toString());

@@ -19,6 +19,7 @@ package com.eviware.soapui.support;
 import com.eviware.soapui.impl.wsdl.support.HelpUrls;
 import com.eviware.soapui.support.editor.inspectors.attachments.ContentTypeHandler;
 import com.eviware.soapui.support.types.StringToStringMap;
+import io.github.pixee.security.BoundedLineReader;
 import junit.framework.ComparisonFailure;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
@@ -545,7 +546,7 @@ public class Tools {
             FileInputStream fstream = new FileInputStream(path);
             DataInputStream in = new DataInputStream(fstream);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            content = br.readLine();
+            content = BoundedLineReader.readLine(br, 5_000_000);
             br.close();
             in.close();
         } catch (Exception e) {// Catch exception if any

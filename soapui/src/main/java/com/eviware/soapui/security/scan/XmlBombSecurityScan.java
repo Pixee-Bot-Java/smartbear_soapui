@@ -30,6 +30,7 @@ import com.eviware.soapui.security.SecurityTestRunContext;
 import com.eviware.soapui.security.SecurityTestRunner;
 import com.eviware.soapui.security.ui.XmlBombSecurityScanConfigPanel;
 import com.eviware.soapui.support.types.StringToStringMap;
+import io.github.pixee.security.BoundedLineReader;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlString;
 
@@ -86,7 +87,7 @@ public class XmlBombSecurityScan extends AbstractSecurityScanWithProperties {
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String strLine;
             StringBuffer value = new StringBuffer();
-            while ((strLine = br.readLine()) != null) {
+            while ((strLine = BoundedLineReader.readLine(br, 5_000_000)) != null) {
                 value.append(strLine).append('\n');
             }
             in.close();
@@ -102,7 +103,7 @@ public class XmlBombSecurityScan extends AbstractSecurityScanWithProperties {
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String strLine;
             StringBuffer value = new StringBuffer();
-            while ((strLine = br.readLine()) != null) {
+            while ((strLine = BoundedLineReader.readLine(br, 5_000_000)) != null) {
                 value.append(strLine).append('\n');
             }
             in.close();
@@ -118,7 +119,7 @@ public class XmlBombSecurityScan extends AbstractSecurityScanWithProperties {
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String strLine;
             StringBuffer value = new StringBuffer();
-            while ((strLine = br.readLine()) != null) {
+            while ((strLine = BoundedLineReader.readLine(br, 5_000_000)) != null) {
                 value.append(strLine).append('\n');
             }
             in.close();

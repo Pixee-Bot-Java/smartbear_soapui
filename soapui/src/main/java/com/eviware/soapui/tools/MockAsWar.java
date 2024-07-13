@@ -27,6 +27,7 @@ import com.eviware.x.dialogs.XProgressMonitor;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
+import io.github.pixee.security.BoundedLineReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -147,7 +148,7 @@ public class MockAsWar {
             String inputLine;
             StringBuilder content = new StringBuilder();
 
-            while ((inputLine = in.readLine()) != null) {
+            while ((inputLine = BoundedLineReader.readLine(in, 5_000_000)) != null) {
                 content.append(inputLine).append("\n");
             }
 

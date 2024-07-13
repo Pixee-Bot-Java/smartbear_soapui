@@ -44,6 +44,7 @@ import com.eviware.x.form.support.AField.AFieldType;
 import com.eviware.x.form.support.AForm;
 import com.eviware.x.impl.swing.JFormDialog;
 import com.eviware.x.impl.swing.JStringListFormField;
+import io.github.pixee.security.BoundedLineReader;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -94,7 +95,7 @@ public class CrossSiteScriptingScan extends AbstractSecurityScanWithProperties {
             InputStream in = SoapUI.class.getResourceAsStream("/com/eviware/soapui/resources/security/XSS-vectors.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String strLine;
-            while ((strLine = br.readLine()) != null) {
+            while ((strLine = BoundedLineReader.readLine(br, 5_000_000)) != null) {
                 defaultParameterExposureStrings.add(strLine);
             }
             in.close();

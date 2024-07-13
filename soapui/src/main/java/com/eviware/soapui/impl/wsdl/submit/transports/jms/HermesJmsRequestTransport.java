@@ -41,6 +41,7 @@ import com.eviware.soapui.model.support.ModelSupport;
 import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.xml.XmlUtils;
 import hermes.Hermes;
+import io.github.pixee.security.BoundedLineReader;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang.NotImplementedException;
 
@@ -365,7 +366,7 @@ public class HermesJmsRequestTransport implements RequestTransport {
 
         String line = null;
         try {
-            while ((line = reader.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                 sb.append(line + "\n");
             }
         } catch (IOException e) {

@@ -30,6 +30,7 @@ import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.Tools;
 import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.log.JettyLogger;
+import io.github.pixee.security.BoundedLineReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mortbay.component.AbstractLifeCycle;
@@ -680,10 +681,10 @@ public class JettyMockEngine implements MockEngine {
                     BufferedReader reader = new BufferedReader(new StringReader(str));
                     ((CapturingServletInputStream) inputStream).captureOutputStream = new ByteArrayOutputStream();
 
-                    String line = reader.readLine();
+                    String line = BoundedLineReader.readLine(reader, 5_000_000);
                     while (line != null) {
                         logger.info(">> \"" + line + "\"");
-                        line = reader.readLine();
+                        line = BoundedLineReader.readLine(reader, 5_000_000);
                     }
                 }
             } catch (Exception e) {
@@ -698,10 +699,10 @@ public class JettyMockEngine implements MockEngine {
                     BufferedReader reader = new BufferedReader(new StringReader(str));
                     ((CapturingServletOutputStream) outputStream).captureOutputStream = new ByteArrayOutputStream();
 
-                    String line = reader.readLine();
+                    String line = BoundedLineReader.readLine(reader, 5_000_000);
                     while (line != null) {
                         logger.info("<< \"" + line + "\"");
-                        line = reader.readLine();
+                        line = BoundedLineReader.readLine(reader, 5_000_000);
                     }
                 }
             } catch (Exception e) {

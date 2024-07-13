@@ -89,6 +89,7 @@ import com.eviware.soapui.support.scripting.SoapUIScriptEngine;
 import com.eviware.soapui.support.scripting.SoapUIScriptEngineRegistry;
 import com.eviware.soapui.support.types.StringToObjectMap;
 import com.eviware.soapui.support.xml.XmlUtils;
+import io.github.pixee.security.BoundedLineReader;
 import org.apache.commons.ssl.OpenSSL;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -288,7 +289,7 @@ public class WsdlProject extends AbstractTestPropertyHolderWsdlModelItem<Project
         FileWriter fw = new FileWriter(target);
         BufferedWriter out = new BufferedWriter(fw);
         String line;
-        while ((line = in.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(in, 5_000_000)) != null) {
             out.write(line);
             out.newLine();
             out.flush();
