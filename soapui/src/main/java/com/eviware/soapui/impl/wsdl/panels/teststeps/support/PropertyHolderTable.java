@@ -50,6 +50,7 @@ import com.eviware.x.form.support.AField;
 import com.eviware.x.form.support.AField.AFieldType;
 import com.eviware.x.form.support.AForm;
 import com.eviware.x.impl.swing.FileFormField;
+import io.github.pixee.security.BoundedLineReader;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.swing.AbstractAction;
@@ -351,7 +352,7 @@ public class PropertyHolderTable extends JPanel {
                 try {
                     BufferedReader reader = new BufferedReader(new FileReader(dialog.getValue(LoadOptionsForm.FILE)));
 
-                    String line = reader.readLine();
+                    String line = BoundedLineReader.readLine(reader, 5_000_000);
                     int count = 0;
 
                     Set<String> names = new HashSet<String>(Arrays.asList(holder.getPropertyNames()));
@@ -369,12 +370,12 @@ public class PropertyHolderTable extends JPanel {
                                     if (slashCount % 2 != 0) {
                                         value = value.substring(0, value.length() - ((slashCount + 1) / 2));
 
-                                        String ln = reader.readLine();
+                                        String ln = BoundedLineReader.readLine(reader, 5_000_000);
                                         while (ln != null && ln.endsWith("\\")) {
                                             int slashCountLn = TestPropertyUtils.countEndingSlashes(ln);
                                             if (slashCountLn % 2 != 0) {
                                                 value += ln.substring(0, ln.length() - ((slashCountLn + 1) / 2));
-                                                ln = reader.readLine();
+                                                ln = BoundedLineReader.readLine(reader, 5_000_000);
                                             } else {
                                                 ln = ln.substring(0, ln.length() - (slashCountLn / 2));
                                                 break;
@@ -408,7 +409,7 @@ public class PropertyHolderTable extends JPanel {
                             }
                         }
 
-                        line = reader.readLine();
+                        line = BoundedLineReader.readLine(reader, 5_000_000);
                     }
 
                     if (dialog.getBooleanValue(LoadOptionsForm.DELETEREMAINING)

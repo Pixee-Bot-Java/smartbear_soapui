@@ -17,6 +17,7 @@
 package com.eviware.soapui.support;
 
 import com.eviware.soapui.support.types.StringList;
+import io.github.pixee.security.BoundedLineReader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -324,7 +325,7 @@ public class StringUtils {
         String str = null;
 
         try {
-            str = st.readLine();
+            str = BoundedLineReader.readLine(st, 5_000_000);
 
             while (str != null && (maxSize == 0 || (buf.length() + str.length()) < maxSize)) {
                 if (str.equalsIgnoreCase("<br/>")) {
@@ -337,7 +338,7 @@ public class StringUtils {
                     buf.append("<br>");
                 }
 
-                str = st.readLine();
+                str = BoundedLineReader.readLine(st, 5_000_000);
             }
         } catch (IOException e) {
             e.printStackTrace();
