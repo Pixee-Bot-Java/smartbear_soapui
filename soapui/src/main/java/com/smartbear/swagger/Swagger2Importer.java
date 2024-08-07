@@ -18,6 +18,8 @@ import com.eviware.soapui.support.xml.XmlUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import io.swagger.inflector.examples.ExampleBuilder;
 import io.swagger.inflector.examples.XmlExampleSerializer;
 import io.swagger.inflector.examples.models.Example;
@@ -98,7 +100,7 @@ public class Swagger2Importer implements SwaggerImporter {
 
         if (url.startsWith("file:")) {
             try {
-                url = new File(new URL(url).toURI()).getAbsolutePath();
+                url = new File(Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).toURI()).getAbsolutePath();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -421,7 +423,7 @@ public class Swagger2Importer implements SwaggerImporter {
         if (name == null) {
             if (url.toLowerCase().startsWith("http://") || url.toLowerCase().startsWith("https://")) {
                 try {
-                    name = new URL(url).getHost();
+                    name = Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).getHost();
                 } catch (MalformedURLException e) {
                     throw new RuntimeException(e);
                 }

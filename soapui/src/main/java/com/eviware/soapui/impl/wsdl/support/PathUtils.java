@@ -28,6 +28,8 @@ import com.eviware.soapui.model.support.ModelSupport;
 import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.Tools;
 import com.eviware.soapui.support.UISupport;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.io.File;
 import java.io.IOException;
@@ -242,7 +244,7 @@ public class PathUtils {
             // file url?
             if (path.toLowerCase().startsWith("file:")) {
                 try {
-                    path = new File(new URL(path).toURI()).getAbsolutePath();
+                    path = new File(Urls.create(path, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).toURI()).getAbsolutePath();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -250,7 +252,7 @@ public class PathUtils {
 
             if (rootPath.startsWith("file:")) {
                 try {
-                    rootPath = new File(new URL(rootPath).toURI()).getAbsolutePath();
+                    rootPath = new File(Urls.create(rootPath, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).toURI()).getAbsolutePath();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

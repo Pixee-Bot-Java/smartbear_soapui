@@ -31,6 +31,8 @@ import com.eviware.soapui.support.Tools;
 import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.xml.XmlUtils;
 import com.eviware.soapui.tools.PropertyExpansionRemover;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import net.java.dev.wadl.x2009.x02.ApplicationDocument;
 import net.java.dev.wadl.x2009.x02.ApplicationDocument.Application;
 import net.java.dev.wadl.x2009.x02.DocDocument.Doc;
@@ -78,7 +80,7 @@ public class WadlImporter {
     public void initFromWadl(String wadlUrl) {
         try {
             // XmlObject xmlObject = XmlObject.Factory.parse(new URL(wadlUrl));
-            XmlObject xmlObject = XmlUtils.createXmlObject(new URL(wadlUrl));
+            XmlObject xmlObject = XmlUtils.createXmlObject(Urls.create(wadlUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
 
             String content = Tools.removePropertyExpansions(wadlUrl, xmlObject.xmlText());
 
@@ -104,7 +106,7 @@ public class WadlImporter {
             String base = resourcesList.size() == 1 ? resourcesList.get(0).getBase() : "";
 
             try {
-                URL baseUrl = new URL(base);
+                URL baseUrl = Urls.create(base, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                 service.setBasePath(baseUrl.getPath());
 
                 service.addEndpoint(Tools.getEndpointFromUrl(baseUrl));

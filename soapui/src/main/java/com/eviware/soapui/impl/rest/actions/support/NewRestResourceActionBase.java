@@ -33,6 +33,8 @@ import com.eviware.x.form.XFormDialog;
 import com.eviware.x.form.support.AField;
 import com.eviware.x.form.support.AField.AFieldType;
 import com.eviware.x.form.support.AForm;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -120,7 +122,7 @@ public abstract class NewRestResourceActionBase<T extends ModelItem> extends Abs
 
     private String removeEndpointFrom(String path) {
         try {
-            return new URL(path).getPath();
+            return Urls.create(path, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).getPath();
         } catch (MalformedURLException ignore) {
             return path;
         }

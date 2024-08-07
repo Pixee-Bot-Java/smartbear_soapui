@@ -126,6 +126,8 @@ import com.jgoodies.forms.factories.ButtonBarFactory;
 import com.jgoodies.looks.HeaderStyle;
 import com.jgoodies.looks.Options;
 import com.smartbear.analytics.AnalyticsManager;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import javafx.application.Platform;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -1001,7 +1003,7 @@ public class SoapUI {
                 SwingUtilities.invokeLater(new WsdlProjectCreator(arg));
             } else {
                 try {
-                    URL url = new URL(arg);
+                    URL url = Urls.create(arg, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                     SwingUtilities.invokeLater(new RestProjectCreator(url));
                 } catch (Exception ignore) {
                 }

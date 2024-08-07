@@ -48,6 +48,8 @@ import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.types.StringList;
 import com.eviware.soapui.support.types.StringToStringMap;
 import com.eviware.soapui.support.types.StringToStringsMap;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.xmlbeans.SchemaGlobalElement;
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlException;
@@ -176,7 +178,7 @@ public class RestRequest extends AbstractHttpRequest<RestRequestConfig> implemen
 
         if (StringUtils.isNullOrEmpty(endpoint)) {
             try {
-                endpoint = new URL(getPath()).toString();
+                endpoint = Urls.create(getPath(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).toString();
             } catch (MalformedURLException ignore) {
             }
         }
