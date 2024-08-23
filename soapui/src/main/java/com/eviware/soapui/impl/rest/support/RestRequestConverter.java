@@ -44,6 +44,7 @@ import com.eviware.soapui.model.project.Project;
 import com.eviware.soapui.model.testsuite.TestProperty;
 import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.UISupport;
+import java.nio.file.Files;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
@@ -204,7 +205,7 @@ public class RestRequestConverter {
         for (AttachmentConfig ac : oldConfig.getAttachmentList()) {
             try {
                 if (ac.isSetData()) {
-                    File temp = File.createTempFile("pattern", ".suffix");
+                    File temp = Files.createTempFile("pattern", ".suffix").toFile();
                     temp.deleteOnExit();
                     FileOutputStream out = new FileOutputStream(temp);
                     out.write(ac.getData());

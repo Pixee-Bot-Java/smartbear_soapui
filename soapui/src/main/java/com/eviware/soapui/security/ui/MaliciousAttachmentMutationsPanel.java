@@ -46,6 +46,7 @@ import com.eviware.x.form.support.AForm;
 import com.eviware.x.impl.swing.JCheckBoxFormField;
 import com.eviware.x.impl.swing.JFormDialog;
 import com.eviware.x.impl.swing.JTextFieldFormField;
+import java.nio.file.Files;
 import org.jdesktop.swingx.JXTable;
 
 import javax.activation.MimetypesFileTypeMap;
@@ -361,8 +362,8 @@ public class MaliciousAttachmentMutationsPanel {
                 }
 
                 try {
-                    File file = File.createTempFile(StringUtils.createFileName("attachment", '-'), "."
-                            + ContentTypeHandler.getExtensionForContentType(contentType));
+                    File file = Files.createTempFile(StringUtils.createFileName("attachment", '-'), "."
+                            + ContentTypeHandler.getExtensionForContentType(contentType)).toFile();
                     String filename = file.getAbsolutePath();
                     Boolean enabled = new Boolean(true);
                     Boolean cached = new Boolean(true);

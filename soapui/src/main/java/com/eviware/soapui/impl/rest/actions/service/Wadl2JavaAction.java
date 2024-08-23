@@ -35,6 +35,7 @@ import com.eviware.x.form.XFormDialogBuilder;
 import com.eviware.x.form.XFormFactory;
 
 import java.io.File;
+import java.nio.file.Files;
 
 /**
  * Invokes Apache CXF wsdl2java utility
@@ -121,7 +122,7 @@ public class Wadl2JavaAction extends AbstractToolsAction<Interface> {
         if (PathUtils.isHttpPath(expandPath) && !modelItem.isGenerated()) {
             return expandPath;
         } else {
-            File tempFile = File.createTempFile("tempdir", null);
+            File tempFile = Files.createTempFile("tempdir", null).toFile();
             String path = tempFile.getAbsolutePath();
             tempFile.delete();
             return modelItem.getDefinitionContext().export(path);

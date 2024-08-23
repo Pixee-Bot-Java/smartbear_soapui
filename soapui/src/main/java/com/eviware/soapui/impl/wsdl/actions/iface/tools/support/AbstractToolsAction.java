@@ -37,6 +37,7 @@ import com.eviware.x.form.XFormDialog;
 import com.eviware.x.form.XFormDialogBuilder;
 import com.eviware.x.form.XFormField;
 import com.eviware.x.form.XFormTextField;
+import java.nio.file.Files;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -243,7 +244,7 @@ public abstract class AbstractToolsAction<T extends ModelItem> extends AbstractS
 
             if (!hasDefinition || (useCached && iface.getDefinitionContext().isCached())) {
                 try {
-                    File tempFile = File.createTempFile("tempdir", null);
+                    File tempFile = Files.createTempFile("tempdir", null).toFile();
                     String path = tempFile.getAbsolutePath();
                     tempFile.delete();
                     wsdl = iface.getDefinitionContext().export(path);
