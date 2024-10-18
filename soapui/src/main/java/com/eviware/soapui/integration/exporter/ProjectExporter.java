@@ -21,6 +21,7 @@ import com.eviware.soapui.impl.wsdl.WsdlProject;
 import com.eviware.soapui.impl.wsdl.support.ExternalDependency;
 import com.eviware.soapui.model.project.ProjectFactoryRegistry;
 import com.eviware.soapui.support.SoapUIException;
+import io.github.pixee.security.ZipSecurity;
 import org.apache.commons.io.FileUtils;
 import org.apache.xmlbeans.XmlException;
 
@@ -134,7 +135,7 @@ public class ProjectExporter {
     }
 
     public static void unpackageAll(String archive, String path) throws IOException {
-        try (ZipInputStream zis = new ZipInputStream(new BufferedInputStream(Files.newInputStream(Paths.get(archive))))) {
+        try (ZipInputStream zis = ZipSecurity.createHardenedInputStream(new BufferedInputStream(Files.newInputStream(Paths.get(archive))))) {
             ZipEntry entry;
             while ((entry = zis.getNextEntry()) != null) {
                 validateZipEntry(path, entry.getName());
