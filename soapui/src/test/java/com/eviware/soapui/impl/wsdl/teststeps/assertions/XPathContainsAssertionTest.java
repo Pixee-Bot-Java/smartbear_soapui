@@ -20,6 +20,7 @@ import com.eviware.soapui.config.TestAssertionConfig;
 import com.eviware.soapui.impl.wsdl.WsdlSubmitContext;
 import com.eviware.soapui.impl.wsdl.teststeps.assertions.basic.XPathContainsAssertion;
 import com.eviware.soapui.model.testsuite.AssertionException;
+import io.github.pixee.security.BoundedLineReader;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.junit.Before;
@@ -219,10 +220,10 @@ public class XPathContainsAssertionTest {
         BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(string)));
         StringBuffer result = new StringBuffer();
 
-        String line = reader.readLine();
+        String line = BoundedLineReader.readLine(reader, 5_000_000);
         while (line != null) {
             result.append(line);
-            line = reader.readLine();
+            line = BoundedLineReader.readLine(reader, 5_000_000);
         }
 
         return result.toString();

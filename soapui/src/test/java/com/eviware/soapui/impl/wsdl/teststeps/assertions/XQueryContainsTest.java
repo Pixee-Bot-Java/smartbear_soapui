@@ -22,6 +22,7 @@ import com.eviware.soapui.impl.wsdl.teststeps.assertions.basic.XQueryContainsAss
 import com.eviware.soapui.model.iface.SubmitContext;
 import com.eviware.soapui.model.testsuite.Assertable;
 import com.eviware.soapui.model.testsuite.AssertionException;
+import io.github.pixee.security.BoundedLineReader;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -59,10 +60,10 @@ public class XQueryContainsTest {
         BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(string)));
         StringBuffer result = new StringBuffer();
 
-        String line = reader.readLine();
+        String line = BoundedLineReader.readLine(reader, 5_000_000);
         while (line != null) {
             result.append(line);
-            line = reader.readLine();
+            line = BoundedLineReader.readLine(reader, 5_000_000);
         }
 
         return result.toString();
