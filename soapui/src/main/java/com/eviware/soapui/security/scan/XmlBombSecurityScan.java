@@ -31,6 +31,7 @@ import com.eviware.soapui.security.SecurityTestRunner;
 import com.eviware.soapui.security.ui.XmlBombSecurityScanConfigPanel;
 import com.eviware.soapui.support.types.StringToStringMap;
 import io.github.pixee.security.BoundedLineReader;
+import java.nio.file.Files;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlString;
 
@@ -218,13 +219,14 @@ public class XmlBombSecurityScan extends AbstractSecurityScanWithProperties {
                 String bomb = getXmlBombList().get(currentIndex);
                 try {
                     File bombFile = File.createTempFile(getAttachmentPrefix(), ".xml");
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(bombFile));
-                    writer.write(bomb);
-                    writer.flush();
-                    request.setInlineFilesEnabled(false);
-                    attach = request.attachFile(bombFile, false);
-                    attach.setContentType("text/xml;");
-                    currentIndex++;
+                    try (BufferedWriter writer = Files.newBufferedWriter(bombFile.toPath())) {
+                        writer.write(bomb);
+                        writer.flush();
+                        request.setInlineFilesEnabled(false);
+                        attach = request.attachFile(bombFile, false);
+                        attach.setContentType("text/xml;");
+                        currentIndex++;
+                    }
                 } catch (IOException e) {
                     SoapUI.logError(e);
                 }
