@@ -32,6 +32,8 @@ import com.eviware.x.form.XForm;
 import com.eviware.x.form.XFormDialog;
 import com.eviware.x.form.XFormDialogBuilder;
 import com.eviware.x.form.XFormFactory;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.NTCredentials;
@@ -178,7 +180,7 @@ public class UrlWsdlLoader extends WsdlLoader {
 
     protected InputStream handleFile(String url) throws Exception {
         setNewBaseURI(url);
-        return new URL(url).openStream();
+        return Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
     }
 
     protected void createGetMethod(String url) {

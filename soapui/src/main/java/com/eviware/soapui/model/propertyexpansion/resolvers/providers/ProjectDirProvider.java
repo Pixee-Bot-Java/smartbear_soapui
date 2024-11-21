@@ -20,6 +20,8 @@ import com.eviware.soapui.model.project.Project;
 import com.eviware.soapui.model.propertyexpansion.PropertyExpansionContext;
 import com.eviware.soapui.model.propertyexpansion.resolvers.DynamicPropertyResolver.ValueProvider;
 import com.eviware.soapui.model.support.ModelSupport;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -42,7 +44,7 @@ public class ProjectDirProvider implements ValueProvider {
                 return new File(file.getAbsolutePath()).getParent();
             } else {
                 try {
-                    URL url = new URL(project.getPath());
+                    URL url = Urls.create(project.getPath(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                     String str = url.getProtocol() + "://" + url.getHost()
                             + ((url.getPort() != -1 ? ":" + url.getPort() : "")) + url.getPath();
                     int ix = str.lastIndexOf('/');

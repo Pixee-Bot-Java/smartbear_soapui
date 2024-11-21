@@ -25,6 +25,8 @@ import com.eviware.soapui.settings.WsdlSettings;
 import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.Tools;
 import com.eviware.soapui.support.xml.XmlUtils;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.xmlbeans.SchemaAnnotation;
@@ -133,7 +135,7 @@ public class SchemaUtils {
                         String xsdFile = xsdFiles[c];
                         if (xsdFile.endsWith(".xsd")) {
                             String filename = schemaDirectory + File.separator + xsdFile;
-                            loadDefaultSchema(new URL("file:" + filename));
+                            loadDefaultSchema(Urls.create("file:" + filename, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
                             cnt++;
                         }
                     } catch (Throwable e) {

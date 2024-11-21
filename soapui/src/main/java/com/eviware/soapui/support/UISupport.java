@@ -41,6 +41,8 @@ import com.eviware.x.impl.swing.SwingDialogs;
 import com.eviware.x.impl.swing.SwingFileDialogs;
 import com.jgoodies.looks.HeaderStyle;
 import com.jgoodies.looks.Options;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.syntax.jedit.InputHandler;
 
 import javax.swing.AbstractAction;
@@ -840,7 +842,7 @@ public class UISupport {
 
         try {
             if (url == null) {
-                url = new URL("http://www.soapui.org/images/" + filename);
+                url = Urls.create("http://www.soapui.org/images/" + filename, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             }
         } catch (Exception e2) {
             SoapUI.logError(e2);

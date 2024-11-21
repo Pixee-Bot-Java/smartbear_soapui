@@ -31,6 +31,8 @@ import com.eviware.x.form.XForm;
 import com.eviware.x.form.XFormDialog;
 import com.eviware.x.form.XFormDialogBuilder;
 import com.eviware.x.form.XFormFactory;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import javax.swing.Action;
 import java.io.File;
@@ -137,7 +139,7 @@ public class TcpMonAction extends AbstractToolsAction<WsdlInterface> {
         builder.addArgs(values.get(PORT));
         String endpoint = values.get(ENDPOINT);
         if (endpoint != null && !endpoint.equals("- none available -")) {
-            URL url = new URL(endpoint);
+            URL url = Urls.create(endpoint, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             builder.addArgs(url.getHost());
             builder.addArgs((url.getPort() == -1) ? "80" : "" + url.getPort());
 

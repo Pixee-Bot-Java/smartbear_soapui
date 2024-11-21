@@ -17,6 +17,8 @@
 package com.eviware.soapui.support;
 
 import com.eviware.soapui.impl.wsdl.support.HelpUrls;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -43,7 +45,7 @@ public class HelpUrlChecker {
                 }
 
                 try {
-                    int responseCode = ((HttpURLConnection) new URL(helpUrl).openConnection()).getResponseCode();
+                    int responseCode = ((HttpURLConnection) Urls.create(helpUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openConnection()).getResponseCode();
                     if (responseCode != 200) {
                         System.out.println(responseCode + " " + helpUrl);
                     }

@@ -20,6 +20,8 @@ import com.eviware.soapui.SoapUI;
 import com.eviware.soapui.impl.rest.actions.oauth.BrowserListener;
 import com.eviware.soapui.support.Tools;
 import com.eviware.soapui.support.xml.XmlUtils;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -331,7 +333,7 @@ class EnabledWebViewBasedBrowserComponent implements WebViewBasedBrowserComponen
             if (neededIndex != -1) {
                 urlString = urlString.substring(0, neededIndex);
             }
-            URL url = new URL(urlString);
+            URL url = Urls.create(urlString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             final URLConnection urlConnection = url.openConnection();
             if (urlConnection instanceof HttpURLConnection) {
                 HttpURLConnection httpURLConnection = (HttpURLConnection) urlConnection;

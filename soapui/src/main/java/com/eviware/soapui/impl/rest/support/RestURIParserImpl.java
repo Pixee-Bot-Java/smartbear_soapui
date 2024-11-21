@@ -17,6 +17,8 @@
 package com.eviware.soapui.impl.rest.support;
 
 import com.eviware.soapui.impl.rest.RestURIParser;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -174,7 +176,7 @@ public class RestURIParserImpl implements RestURIParser {
     private void parseWithURL(String uriString) throws MalformedURLException {
         URL url;
         try {
-            url = new URL(uriString);
+            url = Urls.create(uriString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             resourcePath = (url.getPath() == null ? "" : url.getPath());
             query = (url.getQuery() == null ? "" : url.getQuery());
             scheme = (url.getProtocol() == null ? "" : url.getProtocol());

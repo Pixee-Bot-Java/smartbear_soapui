@@ -16,6 +16,8 @@
 
 package com.eviware.soapui.utils;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
@@ -106,7 +108,7 @@ class StubbedServletContext implements ServletContext {
     @Override
     public URL getResource(String s) throws MalformedURLException {
 
-        return new URL("file://" + s );
+        return Urls.create("file://" + s, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
     }
 
     @Override

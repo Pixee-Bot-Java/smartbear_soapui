@@ -16,6 +16,8 @@
 
 package com.eviware.soapui.support.jnlp;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -82,7 +84,7 @@ public class WebstartUtil {
 
     private static JarFile getJar(String jarUrl) throws MalformedURLException, IOException {
         // String reportsJarUrl = System.getProperty("reports.jar.url");
-        URL url = new URL("jar:" + jarUrl + "!/");
+        URL url = Urls.create("jar:" + jarUrl + "!/", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         JarURLConnection jarConnection = (JarURLConnection) url.openConnection();
         JarFile jar = jarConnection.getJarFile();
         return jar;
