@@ -27,6 +27,7 @@ import com.eviware.soapui.support.editor.EditorLocation;
 import com.eviware.soapui.support.editor.inspectors.attachments.ContentTypeHandler;
 import com.eviware.soapui.support.editor.views.AbstractXmlEditorView;
 import com.eviware.soapui.support.editor.xml.XmlEditor;
+import java.nio.file.Files;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -137,7 +138,7 @@ public class HttpHtmlMessageExchangeResponseView extends AbstractXmlEditorView<H
             } else if (isSupportedContentType(contentType)) {
                 try {
                     String ext = ContentTypeHandler.getExtensionForContentType(contentType);
-                    File temp = File.createTempFile("response", "." + ext);
+                    File temp = Files.createTempFile("response", "." + ext).toFile();
                     FileOutputStream fileOutputStream = new FileOutputStream(temp);
                     writeHttpBody(jproxyServletWsdlMonitorMessageExchange.getRawResponseData(), fileOutputStream);
                     fileOutputStream.close();
@@ -176,7 +177,7 @@ public class HttpHtmlMessageExchangeResponseView extends AbstractXmlEditorView<H
             } else if (!contentType.contains("xml")) {
                 try {
                     String ext = ContentTypeHandler.getExtensionForContentType(contentType);
-                    File temp = File.createTempFile("response", "." + ext);
+                    File temp = Files.createTempFile("response", "." + ext).toFile();
                     FileOutputStream fileOutputStream = new FileOutputStream(temp);
                     writeHttpBody(messageExchangeModelItem2.getMessageExchange().getRawResponseData(), fileOutputStream);
                     fileOutputStream.close();

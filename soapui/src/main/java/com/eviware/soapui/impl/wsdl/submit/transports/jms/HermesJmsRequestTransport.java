@@ -42,6 +42,7 @@ import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.xml.XmlUtils;
 import hermes.Hermes;
 import io.github.pixee.security.BoundedLineReader;
+import java.nio.file.Files;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang.NotImplementedException;
 
@@ -426,7 +427,7 @@ public class HermesJmsRequestTransport implements RequestTransport {
             throws JMSException {
         try {
             byte[] buff = new byte[1];
-            File temp = File.createTempFile("bytesmessage", ".tmp");
+            File temp = Files.createTempFile("bytesmessage", ".tmp").toFile();
             OutputStream out = new FileOutputStream(temp);
             bytesMessageReceive.reset();
             while (bytesMessageReceive.readBytes(buff) != -1) {

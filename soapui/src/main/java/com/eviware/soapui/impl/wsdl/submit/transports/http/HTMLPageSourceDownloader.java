@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -107,7 +108,7 @@ public class HTMLPageSourceDownloader {
             fileName += "___";
         }
 
-        File temp = File.createTempFile(fileName, extension);
+        File temp = Files.createTempFile(fileName, extension).toFile();
         OutputStream out = new FileOutputStream(temp);
         out.write(bytes);
         out.close();

@@ -38,6 +38,7 @@ import com.eviware.x.form.XFormFactory;
 import com.eviware.x.form.XFormField;
 import com.eviware.x.form.XFormFieldListener;
 import com.eviware.x.form.XFormTextField;
+import java.nio.file.Files;
 import org.jboss.jbosswsTools.ConfigurationDocument;
 import org.jboss.jbosswsTools.ConfigurationType;
 import org.jboss.jbosswsTools.GlobalType;
@@ -189,7 +190,7 @@ public class WSToolsWsdl2JavaAction extends AbstractToolsAction<Interface> {
     }
 
     private String buildConfigFile(StringToStringMap values, Interface modelItem) throws IOException {
-        File file = File.createTempFile("wstools-config", ".xml");
+        File file = Files.createTempFile("wstools-config", ".xml").toFile();
         ConfigurationDocument configDocument = createConfigFile(values, modelItem);
 
         configDocument.save(file);

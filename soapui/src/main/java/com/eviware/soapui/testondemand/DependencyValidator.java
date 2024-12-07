@@ -27,6 +27,7 @@ import com.eviware.soapui.model.iface.Interface;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 public class DependencyValidator {
@@ -61,7 +62,7 @@ public class DependencyValidator {
         boolean shouldCache = project.isCacheDefinitions();
 
         try {
-            File tempFile = File.createTempFile("project-temp-", ".xml", null);
+            File tempFile = Files.createTempFile(null.toPath(), "project-temp-", ".xml").toFile();
             // cache interfaces
             if (!shouldCache) {
                 project.setCacheDefinitions(true);

@@ -34,6 +34,7 @@ import com.eviware.x.form.XForm;
 import com.eviware.x.form.XFormDialog;
 import com.eviware.x.form.XFormDialogBuilder;
 import com.eviware.x.form.XFormFactory;
+import java.nio.file.Files;
 import org.jboss.jbosswsTools.ConfigurationDocument;
 import org.jboss.jbosswsTools.ConfigurationType;
 import org.jboss.jbosswsTools.JavaToWsdlType;
@@ -142,8 +143,7 @@ public class WSToolsRegenerateJava2WsdlAction extends AbstractToolsAction<WsdlIn
     }
 
     private String buildConfigFile(StringToStringMap values) throws IOException {
-        File file = File.createTempFile("wstools-config", ".xml",
-                new File(SoapUI.getSettings().getString(ToolsSettings.JBOSSWS_WSTOOLS_LOCATION, null)));
+        File file = Files.createTempFile(new File(SoapUI.getSettings().getString(ToolsSettings.JBOSSWS_WSTOOLS_LOCATION, null)).toPath(), "wstools-config", ".xml").toFile();
         ConfigurationDocument configDocument = createConfigFile(values);
         configDocument.save(file);
         return file.getName();

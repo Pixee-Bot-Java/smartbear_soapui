@@ -43,6 +43,7 @@ import com.eviware.soapui.settings.SSLSettings;
 import com.eviware.soapui.support.xml.XmlUtils;
 import com.google.common.base.Strings;
 import com.google.common.io.ByteStreams;
+import java.nio.file.Files;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.entity.ByteArrayEntity;
@@ -187,7 +188,7 @@ public class TestOnDemandCaller {
     protected File saveTemporaryProject(WsdlProject project) {
         File tempFile = null;
         try {
-            tempFile = File.createTempFile("project-temp-", ".xml", null);
+            tempFile = Files.createTempFile(null.toPath(), "project-temp-", ".xml").toFile();
             project.saveIn(tempFile);
         } catch (IOException e) {
             SoapUI.logError(e, COULD_NOT_SAVE_TEMPORARY_PROJECT_MESSAGE);

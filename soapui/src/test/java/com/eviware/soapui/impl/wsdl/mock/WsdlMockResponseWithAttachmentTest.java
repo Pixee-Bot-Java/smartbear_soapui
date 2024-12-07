@@ -28,6 +28,7 @@ import com.eviware.soapui.model.iface.Attachment;
 import com.eviware.soapui.model.mock.MockResult;
 import com.eviware.soapui.support.types.StringToStringMap;
 import com.eviware.soapui.utils.ModelItemFactory;
+import java.nio.file.Files;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -73,7 +74,7 @@ public class WsdlMockResponseWithAttachmentTest {
     }
 
     public void addAttachment(WsdlMockResponse mockResponse) throws IOException {
-        Attachment attachment = new MockFileAttachment(File.createTempFile("attach", "file"), false, mockResponse);
+        Attachment attachment = new MockFileAttachment(Files.createTempFile("attach", "file").toFile(), false, mockResponse);
         mockResponse.addAttachment(attachment);
     }
 

@@ -19,6 +19,7 @@ package com.eviware.soapui.utils;
 import com.eviware.soapui.support.UISupport;
 import com.eviware.x.dialogs.XDialogs;
 import com.eviware.x.dialogs.XFileDialogs;
+import java.nio.file.Files;
 import org.junit.After;
 import org.junit.Before;
 import org.mockito.Mock;
@@ -66,7 +67,7 @@ public abstract class StubbedDialogsTestBase {
 
 
     private void addSaveAsBehaviour(XFileDialogs mockedFileDialogs) throws IOException {
-        File savedFile = File.createTempFile(SAVED_PROJECT_FILE_NAME, SAVED_PROJECT_FILE_EXTENSION);
+        File savedFile = Files.createTempFile(SAVED_PROJECT_FILE_NAME, SAVED_PROJECT_FILE_EXTENSION).toFile();
         when(mockedFileDialogs.saveAs(anyObject(), anyString(), anyString(), anyString(), isA(File.class))).thenReturn(savedFile);
     }
 

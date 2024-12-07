@@ -30,6 +30,7 @@ import com.eviware.soapui.support.Tools;
 import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.components.JXToolBar;
 import com.eviware.soapui.support.swing.JTableFactory;
+import java.nio.file.Files;
 
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
@@ -238,8 +239,7 @@ public class AttachmentsPanel extends javax.swing.JPanel {
                     String name = attachment.getName();
                     try {
                         name = StringUtils.createFileName(name, '-');
-                        File tempFile = File.createTempFile("attachment-" + name,
-                                "." + ContentTypeHandler.getExtensionForContentType(attachment.getContentType()));
+                        File tempFile = Files.createTempFile("attachment-" + name, "." + ContentTypeHandler.getExtensionForContentType(attachment.getContentType())).toFile();
                         exportAttachment(tempFile, attachment, false);
                     } catch (Exception e1) {
                         UISupport.showErrorMessage(e1);

@@ -44,6 +44,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static com.eviware.soapui.analytics.SoapUIActions.USE_JAX_RPC_ARTIFACTS_TOOL;
+import java.nio.file.Files;
 
 /**
  * Invokes JWSDP wscompile
@@ -234,7 +235,7 @@ public class WSCompileAction extends AbstractToolsAction<Interface> {
     }
 
     private String buildConfigFile(StringToStringMap values, Interface modelItem) throws IOException {
-        File file = File.createTempFile("wscompile-config", ".xml");
+        File file = Files.createTempFile("wscompile-config", ".xml").toFile();
         ConfigurationDocument configDocument = createConfigFile(values, modelItem);
         configDocument.save(file);
         return file.getAbsolutePath();

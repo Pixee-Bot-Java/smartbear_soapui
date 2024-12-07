@@ -31,6 +31,7 @@ import com.eviware.soapui.security.SecurityTestRunner;
 import com.eviware.soapui.security.ui.XmlBombSecurityScanConfigPanel;
 import com.eviware.soapui.support.types.StringToStringMap;
 import io.github.pixee.security.BoundedLineReader;
+import java.nio.file.Files;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlString;
 
@@ -217,7 +218,7 @@ public class XmlBombSecurityScan extends AbstractSecurityScanWithProperties {
             if (currentIndex < getXmlBombList().size()) {
                 String bomb = getXmlBombList().get(currentIndex);
                 try {
-                    File bombFile = File.createTempFile(getAttachmentPrefix(), ".xml");
+                    File bombFile = Files.createTempFile(getAttachmentPrefix(), ".xml").toFile();
                     BufferedWriter writer = new BufferedWriter(new FileWriter(bombFile));
                     writer.write(bomb);
                     writer.flush();
