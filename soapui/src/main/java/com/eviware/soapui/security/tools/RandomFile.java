@@ -22,6 +22,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.Random;
 
 public class RandomFile {
@@ -29,7 +30,7 @@ public class RandomFile {
     private File file;
     private long length;
 
-    private final Random random = new Random();
+    private final Random random = new SecureRandom();
 
     public RandomFile(long length, String name, String contentType) throws IOException {
         this.length = length;

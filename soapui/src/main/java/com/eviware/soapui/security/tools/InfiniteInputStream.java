@@ -18,6 +18,7 @@ package com.eviware.soapui.security.tools;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.SecureRandom;
 import java.util.Random;
 
 public class InfiniteInputStream extends InputStream {
@@ -34,7 +35,7 @@ public class InfiniteInputStream extends InputStream {
         if (bytesSent >= byteLimit) {
             return -1;
         }
-        Random rnd = new Random();
+        Random rnd = new SecureRandom();
         bytesSent++;
         return rnd.nextInt();
     }
