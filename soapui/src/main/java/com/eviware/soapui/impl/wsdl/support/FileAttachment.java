@@ -23,6 +23,7 @@ import com.eviware.soapui.impl.wsdl.teststeps.BeanPathPropertySupport;
 import com.eviware.soapui.support.Tools;
 import com.eviware.soapui.support.editor.inspectors.attachments.ContentTypeHandler;
 import com.eviware.soapui.support.resolver.ResolveContext;
+import io.github.pixee.security.ZipSecurity;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.logging.log4j.LogManager;
@@ -162,7 +163,7 @@ public abstract class FileAttachment<T extends AbstractWsdlModelItem<?>> impleme
         BufferedInputStream inputStream = null;
 
         if (isCached()) {
-            ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(config.getData()));
+            ZipInputStream zipInputStream = ZipSecurity.createHardenedInputStream(new ByteArrayInputStream(config.getData()));
             zipInputStream.getNextEntry();
             inputStream = new BufferedInputStream(zipInputStream);
         } else {
