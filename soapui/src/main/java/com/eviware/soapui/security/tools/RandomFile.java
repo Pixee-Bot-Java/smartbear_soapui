@@ -22,6 +22,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Random;
 
 public class RandomFile {
@@ -43,7 +44,7 @@ public class RandomFile {
 
         BufferedWriter out = null;
         try {
-            out = new BufferedWriter(new FileWriter(file));
+            out = Files.newBufferedWriter(file.toPath());
             long used = 0;
 
             while (used <= length) {
