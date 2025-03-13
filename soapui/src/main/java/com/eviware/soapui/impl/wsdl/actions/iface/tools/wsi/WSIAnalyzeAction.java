@@ -32,6 +32,7 @@ import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.types.StringToStringMap;
 import com.eviware.soapui.ui.support.DefaultDesktopPanel;
+import java.nio.file.Files;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.wsI.testing.x2003.x03.analyzerConfig.AssertionResults;
@@ -108,7 +109,7 @@ public class WSIAnalyzeAction extends AbstractToolsAction<Interface> {
 
         profile = SoapUI.getSettings().getString(WSISettings.PROFILE_TYPE, WSISettings.BASIC_PROFILE_10_TAD);
 
-        File reportFile = File.createTempFile(WSI_REPORT_NAME, XML_EXTENSION);
+        File reportFile = Files.createTempFile(WSI_REPORT_NAME, XML_EXTENSION).toFile();
         File wsiToolDir = new File(wsiDir);
 
         ArgumentBuilder args = buildArgs(wsiToolDir, reportFile, modelItem);
@@ -125,7 +126,7 @@ public class WSIAnalyzeAction extends AbstractToolsAction<Interface> {
         ConfigurationDocument configDoc = createConfigFile(reportFile, settings, (WsdlInterface) modelItem);
         configFile = configDoc.toString();
 
-        File file = File.createTempFile(WSI_ANALYZER_CONFIG, XML_EXTENSION);
+        File file = Files.createTempFile(WSI_ANALYZER_CONFIG, XML_EXTENSION).toFile();
         configDoc.save(file);
 
         ArgumentBuilder builder = new ArgumentBuilder(new StringToStringMap());
@@ -208,7 +209,7 @@ public class WSIAnalyzeAction extends AbstractToolsAction<Interface> {
             log.warn("WSI output folder is not specified!");
         }
 
-        File tempFile = File.createTempFile(WSI_REPORT_NAME, HTML_EXTENSION, output);
+        File tempFile = Files.createTempFile(output.toPath(), WSI_REPORT_NAME, HTML_EXTENSION).toFile();
         trans.transform(xmlSource, new StreamResult(new FileWriter(tempFile)));
 
         log.info("WSI Report created at [" + tempFile.getAbsolutePath() + "]");

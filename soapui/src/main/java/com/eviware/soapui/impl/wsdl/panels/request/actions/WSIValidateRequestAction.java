@@ -32,6 +32,7 @@ import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.types.StringToStringMap;
 import com.eviware.soapui.support.types.StringToStringsMap;
 import com.eviware.soapui.ui.support.DefaultDesktopPanel;
+import java.nio.file.Files;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.wsI.testing.x2003.x03.analyzerConfig.AssertionResults;
@@ -101,7 +102,7 @@ public class WSIValidateRequestAction extends AbstractToolsAction<WsdlRequest> {
 
         ProcessBuilder builder = new ProcessBuilder();
 
-        File reportFile = File.createTempFile(WSIAnalyzeAction.WSI_REPORT_NAME, WSIAnalyzeAction.XML_EXTENSION);
+        File reportFile = Files.createTempFile(WSIAnalyzeAction.WSI_REPORT_NAME, WSIAnalyzeAction.XML_EXTENSION).toFile();
 
         ArgumentBuilder args = buildArgs(reportFile, modelItem);
         builder.command(args.getArgs());
@@ -132,7 +133,7 @@ public class WSIValidateRequestAction extends AbstractToolsAction<WsdlRequest> {
         addMonitorConfig(log);
         addMessageConfig(log, modelItem);
 
-        logFile = File.createTempFile("wsi-analyzer-log", ".xml");
+        logFile = Files.createTempFile("wsi-analyzer-log", ".xml").toFile();
         logDoc.save(logFile);
         return logFile;
     }
@@ -170,7 +171,7 @@ public class WSIValidateRequestAction extends AbstractToolsAction<WsdlRequest> {
 
         configFile = configDoc.toString();
 
-        File file = File.createTempFile(WSIAnalyzeAction.WSI_ANALYZER_CONFIG, WSIAnalyzeAction.XML_EXTENSION);
+        File file = Files.createTempFile(WSIAnalyzeAction.WSI_ANALYZER_CONFIG, WSIAnalyzeAction.XML_EXTENSION).toFile();
 
         configDoc.save(file);
         return file;

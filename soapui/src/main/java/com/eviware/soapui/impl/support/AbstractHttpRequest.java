@@ -52,6 +52,7 @@ import com.eviware.soapui.support.resolver.ResolveContext;
 import com.eviware.soapui.support.types.StringToStringMap;
 import com.eviware.soapui.support.types.StringToStringsMap;
 import com.sun.security.auth.UserPrincipal;
+import java.nio.file.Files;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.xmlbeans.impl.values.XmlValueOutOfRangeException;
@@ -113,7 +114,7 @@ public abstract class AbstractHttpRequest<T extends AbstractRequestConfig> exten
     public Attachment attachBinaryData(byte[] data, String contentType) {
         RequestFileAttachment fileAttachment;
         try {
-            File temp = File.createTempFile("binaryContent", ".tmp");
+            File temp = Files.createTempFile("binaryContent", ".tmp").toFile();
 
             OutputStream out = new FileOutputStream(temp);
             out.write(data);

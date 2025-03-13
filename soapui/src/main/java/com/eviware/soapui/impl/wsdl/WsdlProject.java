@@ -90,6 +90,7 @@ import com.eviware.soapui.support.scripting.SoapUIScriptEngineRegistry;
 import com.eviware.soapui.support.types.StringToObjectMap;
 import com.eviware.soapui.support.xml.XmlUtils;
 import io.github.pixee.security.BoundedLineReader;
+import java.nio.file.Files;
 import org.apache.commons.ssl.OpenSSL;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -822,7 +823,7 @@ public class WsdlProject extends AbstractTestPropertyHolderWsdlModelItem<Project
         projectDocument.getSoapuiProject().setSoapuiVersion(SoapUI.SOAPUI_VERSION);
 
         try {
-            File tempFile = File.createTempFile("project-temp-", XML_EXTENSION, projectFile.getParentFile());
+            File tempFile = Files.createTempFile(projectFile.getParentFile().toPath(), "project-temp-", XML_EXTENSION).toFile();
 
             // save once to make sure it can be saved
             FileOutputStream tempOut = new FileOutputStream(tempFile);

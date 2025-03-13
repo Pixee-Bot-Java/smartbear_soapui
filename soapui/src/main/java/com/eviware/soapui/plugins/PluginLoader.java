@@ -22,6 +22,7 @@ import com.eviware.soapui.support.action.SoapUIAction;
 import com.eviware.soapui.support.action.SoapUIActionRegistry;
 import com.eviware.soapui.support.factory.SoapUIFactoryRegistry;
 import com.eviware.soapui.support.listener.ListenerRegistry;
+import java.nio.file.Files;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,7 +58,7 @@ public class PluginLoader extends LoaderBase {
     }
 
     private ReflectionsAndClassLoader makeJarFileScanner(File pluginFile, Collection<JarClassLoader> dependencyClassLoaders) throws IOException {
-        File tempFile = File.createTempFile("soapuios", ".jar");
+        File tempFile = Files.createTempFile("soapuios", ".jar").toFile();
         tempFile.deleteOnExit();
         FileUtils.copyFile(pluginFile, tempFile);
         JarClassLoader jarClassLoader = new JarClassLoader(tempFile, PluginLoader.class.getClassLoader(), dependencyClassLoaders);

@@ -17,6 +17,7 @@
 package com.eviware.soapui.impl.wsdl.submit.transports.http.support.attachments;
 
 import com.eviware.soapui.SoapUI;
+import java.nio.file.Files;
 
 import javax.activation.DataSource;
 import javax.mail.internet.MimeMultipart;
@@ -42,7 +43,7 @@ public class MultipartAttachmentFileDataSource implements DataSource {
 
     public InputStream getInputStream() throws IOException {
         try {
-            File file = File.createTempFile("largeAttachment", ".tmp");
+            File file = Files.createTempFile("largeAttachment", ".tmp").toFile();
             file.deleteOnExit();
 
             BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
