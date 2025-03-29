@@ -61,6 +61,8 @@ import com.eviware.x.form.support.AField;
 import com.eviware.x.form.support.AField.AFieldType;
 import com.eviware.x.form.support.AForm;
 import com.jgoodies.forms.builder.ButtonBarBuilder;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.commons.collections.list.TreeList;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.Filter;
@@ -1004,7 +1006,7 @@ public class SoapMonitor extends JPanel {
         String host = targetEndpoint;
 
         try {
-            URL url = new URL(host);
+            URL url = Urls.create(host, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             return url.getHost();
         } catch (MalformedURLException e) {
             return host;
@@ -1017,7 +1019,7 @@ public class SoapMonitor extends JPanel {
 
     public int getTargetPort() {
         try {
-            URL url = new URL(targetEndpoint);
+            URL url = Urls.create(targetEndpoint, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             return url.getPort() == -1 ? 80 : url.getPort();
         } catch (MalformedURLException e) {
             return 80;

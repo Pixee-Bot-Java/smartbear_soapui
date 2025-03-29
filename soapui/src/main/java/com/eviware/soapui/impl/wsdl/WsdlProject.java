@@ -90,6 +90,8 @@ import com.eviware.soapui.support.scripting.SoapUIScriptEngineRegistry;
 import com.eviware.soapui.support.types.StringToObjectMap;
 import com.eviware.soapui.support.xml.XmlUtils;
 import io.github.pixee.security.BoundedLineReader;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.commons.ssl.OpenSSL;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -232,7 +234,7 @@ public class WsdlProject extends AbstractTestPropertyHolderWsdlModelItem<Project
                         }
 
                         remote = true;
-                        loadProject(new URL(path));
+                        loadProject(Urls.create(path, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS));
                     } catch (MalformedURLException e) {
                         SoapUI.logError(e);
                         disabled = true;

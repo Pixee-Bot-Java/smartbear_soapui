@@ -26,6 +26,8 @@ import com.eviware.soapui.model.propertyexpansion.PropertyExpander;
 import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.Tools;
 import com.eviware.soapui.support.types.StringList;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.xmlbeans.XmlBoolean;
 
 import java.io.UnsupportedEncodingException;
@@ -85,7 +87,7 @@ public class RestUtils {
         URL url = null;
 
         try {
-            url = new URL(pathOrEndpoint);
+            url = Urls.create(pathOrEndpoint, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             path = url.getPath();
             queryString = url.getQuery();
         } catch (MalformedURLException e) {

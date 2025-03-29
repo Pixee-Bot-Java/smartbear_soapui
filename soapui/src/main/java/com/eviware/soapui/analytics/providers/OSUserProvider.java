@@ -4,6 +4,8 @@ import com.eviware.soapui.SoapUI;
 import com.eviware.soapui.settings.ProxySettings;
 import com.smartbear.analytics.api.ProductInfo;
 import com.smartbear.analytics.impl.SoapUIOSUserProvider;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.net.*;
 
@@ -17,7 +19,7 @@ public class OSUserProvider extends SoapUIOSUserProvider {
     protected HttpURLConnection initializeConnection(String connectionURL) {
         HttpURLConnection connection;
         try {
-            URL url = new URL(connectionURL);
+            URL url = Urls.create(connectionURL, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             String host = SoapUI.getSettings().getString(ProxySettings.HOST, "");
             int port = 0;
 

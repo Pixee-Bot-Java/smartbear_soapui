@@ -30,6 +30,8 @@ import com.eviware.x.form.support.ADialogBuilder;
 import com.eviware.x.form.support.AField;
 import com.eviware.x.form.support.AField.AFieldType;
 import com.eviware.x.form.support.AForm;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -137,7 +139,7 @@ public class CreateWadlDocumentationAction extends AbstractSoapUIAction<RestServ
         public Source resolve(String href, String base) throws TransformerException {
             try {
                 if (PathUtils.isHttpPath(href)) {
-                    return new StreamSource(new URL(href).openStream());
+                    return new StreamSource(Urls.create(href, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream());
                 }
 
                 File file = PathUtils.isAbsolutePath(href) ? new File(href) : new File(basePath, href);

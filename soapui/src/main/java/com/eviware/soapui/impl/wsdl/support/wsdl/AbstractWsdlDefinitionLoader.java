@@ -23,6 +23,8 @@ import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.Tools;
 import com.eviware.soapui.support.xml.XmlUtils;
 import com.eviware.x.dialogs.XProgressMonitor;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
@@ -53,7 +55,7 @@ public abstract class AbstractWsdlDefinitionLoader extends AbstractDefinitionLoa
         if (!PathUtils.isFilePath(url) && !PathUtils.isRelativePath(url)) {
             // check for username/password
             try {
-                URL u = new URL(url);
+                URL u = Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                 String authority = u.getAuthority();
                 if (authority != null) {
                     int ix1 = authority.indexOf('@');

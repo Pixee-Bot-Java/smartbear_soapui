@@ -25,6 +25,8 @@ import com.eviware.soapui.impl.wsdl.support.PathUtils;
 import com.eviware.soapui.support.Tools;
 import com.eviware.soapui.support.types.StringToStringMap;
 import com.eviware.soapui.support.xml.XmlUtils;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.xmlbeans.SimpleValue;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -197,7 +199,7 @@ public class CachedWsdlLoader extends WsdlLoader {
         String path = fileUrl;
 
         try {
-            URL url = new URL(fileUrl);
+            URL url = Urls.create(fileUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             path = url.getPath();
         } catch (MalformedURLException e) {
         }
