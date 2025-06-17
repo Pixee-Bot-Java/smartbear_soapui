@@ -25,6 +25,7 @@ import com.eviware.soapui.impl.rest.mock.RestMockService;
 import com.eviware.soapui.model.mock.MockService;
 import com.eviware.soapui.support.SoapUIException;
 import com.eviware.soapui.utils.ModelItemFactory;
+import java.nio.file.Files;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -123,7 +124,7 @@ public class WsdlProjectWithRestMockTest {
     }
 
     protected WsdlProject saveAndReloadProject(WsdlProject project) throws Exception {
-        File tempFile = File.createTempFile("soapuitemptestfile", ".xml");
+        File tempFile = Files.createTempFile("soapuitemptestfile", ".xml").toFile();
         tempFile.deleteOnExit();
         project.saveIn(tempFile);
         return new WsdlProject(tempFile.toURI().toString());

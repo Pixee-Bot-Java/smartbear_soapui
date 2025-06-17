@@ -23,6 +23,7 @@ import com.eviware.soapui.impl.wsdl.WsdlOperation;
 import com.eviware.soapui.model.iface.Attachment;
 import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.Tools;
+import java.nio.file.Files;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 
@@ -163,10 +164,8 @@ public class BodyPartAttachment implements Attachment {
             }
 
             try {
-                tempFile = File.createTempFile(
-                        "response-attachment",
-                        (ix == -1 ? ".dat" : "."
-                                + (iy == -1 ? contentType.substring(ix + 1) : contentType.substring(ix + 1, iy))));
+                tempFile = Files.createTempFile("response-attachment", (ix == -1 ? ".dat" : "."
+                                + (iy == -1 ? contentType.substring(ix + 1) : contentType.substring(ix + 1, iy)))).toFile();
 
                 OutputStream out = new BufferedOutputStream(new FileOutputStream(tempFile));
                 InputStream inputStream = getInputStream();

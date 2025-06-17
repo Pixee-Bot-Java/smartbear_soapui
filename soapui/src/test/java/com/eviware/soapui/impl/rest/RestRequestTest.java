@@ -24,6 +24,7 @@ import com.eviware.soapui.impl.rest.support.RestParamProperty;
 import com.eviware.soapui.impl.support.AbstractHttpRequest;
 import com.eviware.soapui.impl.wsdl.WsdlProject;
 import com.eviware.soapui.utils.ModelItemFactory;
+import java.nio.file.Files;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -155,7 +156,7 @@ public class RestRequestTest {
         RestRequest restRequest = restMethod.addNewRequest("TestRequest");
         String originalContent = "First line\r\nSecond \\rline";
         restRequest.setRequestContent(originalContent);
-        File saveFile = File.createTempFile("soapui", "xml");
+        File saveFile = Files.createTempFile("soapui", "xml").toFile();
         saveFile.deleteOnExit();
         project.saveIn(saveFile);
         WsdlProject loadedProject = new WsdlProject(saveFile.getAbsolutePath());
