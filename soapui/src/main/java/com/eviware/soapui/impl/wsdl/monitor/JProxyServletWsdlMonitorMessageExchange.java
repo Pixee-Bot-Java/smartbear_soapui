@@ -34,6 +34,8 @@ import com.eviware.soapui.support.Tools;
 import com.eviware.soapui.support.types.StringToStringMap;
 import com.eviware.soapui.support.types.StringToStringsMap;
 import com.eviware.soapui.support.xml.XmlUtils;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.w3c.dom.Document;
@@ -444,7 +446,7 @@ public class JProxyServletWsdlMonitorMessageExchange extends WsdlMonitorMessageE
 
     public void setTargetURL(String url) {
         try {
-            this.targetURL = new URL(url);
+            this.targetURL = Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

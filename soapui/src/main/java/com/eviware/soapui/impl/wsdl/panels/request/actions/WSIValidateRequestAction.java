@@ -32,6 +32,8 @@ import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.types.StringToStringMap;
 import com.eviware.soapui.support.types.StringToStringsMap;
 import com.eviware.soapui.ui.support.DefaultDesktopPanel;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.wsI.testing.x2003.x03.analyzerConfig.AssertionResults;
@@ -182,7 +184,7 @@ public class WSIValidateRequestAction extends AbstractToolsAction<WsdlRequest> {
         requestMessage.setConversationID("1");
         requestMessage.setTimestamp(Calendar.getInstance());
         requestMessage.setID("1");
-        URL endpoint = new URL(modelItem.getEndpoint());
+        URL endpoint = Urls.create(modelItem.getEndpoint(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         requestMessage.setSenderHostAndPort("localhost");
 
         if (endpoint.getPort() > 0) {

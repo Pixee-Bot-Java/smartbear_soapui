@@ -31,6 +31,8 @@ import com.install4j.api.update.ApplicationDisplayMode;
 import com.install4j.api.update.UpdateChecker;
 import com.install4j.api.update.UpdateDescriptor;
 import com.install4j.api.update.UpdateDescriptorEntry;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -246,7 +248,7 @@ public class Install4jSoapUIUpdateProvider extends Thread implements SoapUIUpdat
     private String checkURLisReachable(String url) {
         try {
             int timeout = 10 * 1000;//10 seconds
-            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            HttpURLConnection connection = (HttpURLConnection) Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openConnection();
             connection.setConnectTimeout(timeout);
             connection.setReadTimeout(timeout);
             int responseCode = connection.getResponseCode();

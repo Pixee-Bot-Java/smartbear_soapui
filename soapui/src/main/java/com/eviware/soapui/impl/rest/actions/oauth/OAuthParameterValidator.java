@@ -20,6 +20,8 @@ import com.eviware.soapui.impl.rest.OAuth2Profile;
 import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.editor.inspectors.auth.OAuth1GetTokenForm;
 import com.eviware.soapui.support.editor.inspectors.auth.OAuth2GetAccessTokenForm;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -82,7 +84,7 @@ public class OAuthParameterValidator {
             return false;
         }
         try {
-            URL url = new URL(authorizationUri);
+            URL url = Urls.create(authorizationUri, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             return url.getProtocol().startsWith("http");
         } catch (MalformedURLException e) {
             return false;

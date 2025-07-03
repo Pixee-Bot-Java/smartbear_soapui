@@ -35,6 +35,8 @@ import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.UISupport;
 import com.eviware.soapui.support.resolver.ResolveContext;
 import com.eviware.soapui.support.types.StringList;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import javax.swing.ImageIcon;
 import java.io.IOException;
@@ -211,9 +213,9 @@ public class WsdlPropertiesTestStep extends WsdlTestStep implements MutableTestP
         URL url;
 
         try {
-            url = new URL(source);
+            url = Urls.create(source, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         } catch (MalformedURLException e) {
-            url = new URL("file:" + source);
+            url = Urls.create("file:" + source, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         }
 
         return url.openStream();

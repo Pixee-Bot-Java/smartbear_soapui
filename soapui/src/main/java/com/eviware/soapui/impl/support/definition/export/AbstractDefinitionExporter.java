@@ -24,6 +24,8 @@ import com.eviware.soapui.model.iface.Interface;
 import com.eviware.soapui.support.Tools;
 import com.eviware.soapui.support.types.StringToStringMap;
 import com.eviware.soapui.support.xml.XmlUtils;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.xmlbeans.SimpleValue;
 import org.apache.xmlbeans.XmlObject;
 
@@ -125,7 +127,7 @@ public abstract class AbstractDefinitionExporter<T extends Interface> implements
         String path = part.getUrl();
 
         try {
-            URL url = new URL(path);
+            URL url = Urls.create(path, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             path = url.getPath();
         } catch (MalformedURLException ignored) {
         }

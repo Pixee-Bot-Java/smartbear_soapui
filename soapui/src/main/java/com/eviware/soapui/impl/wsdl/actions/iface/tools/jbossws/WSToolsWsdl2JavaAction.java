@@ -38,6 +38,8 @@ import com.eviware.x.form.XFormFactory;
 import com.eviware.x.form.XFormField;
 import com.eviware.x.form.XFormFieldListener;
 import com.eviware.x.form.XFormTextField;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.jboss.jbosswsTools.ConfigurationDocument;
 import org.jboss.jbosswsTools.ConfigurationType;
 import org.jboss.jbosswsTools.GlobalType;
@@ -220,7 +222,7 @@ public class WSToolsWsdl2JavaAction extends AbstractToolsAction<Interface> {
 
         String wsdlUrl = getWsdlUrl(values, modelItem);
         try {
-            new URL(wsdlUrl);
+            Urls.create(wsdlUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             wsdl2Java.setLocation(wsdlUrl);
         } catch (MalformedURLException e) {
             ((Element) wsdl2Java.getDomNode()).setAttribute("file", wsdlUrl);

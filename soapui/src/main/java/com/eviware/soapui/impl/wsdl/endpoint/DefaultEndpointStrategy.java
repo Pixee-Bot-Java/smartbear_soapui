@@ -44,6 +44,8 @@ import com.eviware.soapui.model.propertyexpansion.PropertyExpansionsResult;
 import com.eviware.soapui.model.support.ProjectListenerAdapter;
 import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.types.StringList;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.commons.httpclient.URI;
 import org.apache.http.client.methods.HttpRequestBase;
 
@@ -155,7 +157,7 @@ public class DefaultEndpointStrategy implements EndpointStrategy, PropertyExpans
             synchronized (defaults) {
                 for (String ep : defaults.keySet()) {
                     try {
-                        URL tempUrl = new URL(PropertyExpander.expandProperties(context, ep));
+                        URL tempUrl = Urls.create(PropertyExpander.expandProperties(context, ep), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                         if (tempUrl.toString().equalsIgnoreCase(uri.toString())) {
                             def = defaults.get(ep);
                             break;
@@ -171,7 +173,7 @@ public class DefaultEndpointStrategy implements EndpointStrategy, PropertyExpans
                 if (wsdlRequest instanceof RestRequestInterface) {
                     for (String ep : defaults.keySet()) {
                         try {
-                            URL tempUrl = new URL(PropertyExpander.expandProperties(context, ep));
+                            URL tempUrl = Urls.create(PropertyExpander.expandProperties(context, ep), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                             if (tempUrl.getHost().toString().equalsIgnoreCase(uri.getHost().toString())) {
                                 def = defaults.get(ep);
                                 break;

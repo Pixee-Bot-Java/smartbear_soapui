@@ -23,6 +23,8 @@ import com.eviware.soapui.model.propertyexpansion.PropertyExpansionUtils;
 import com.eviware.soapui.model.testsuite.TestCaseRunContext;
 import com.eviware.soapui.support.StringUtils;
 import com.eviware.soapui.support.resolver.ResolveContext;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -100,7 +102,7 @@ public abstract class AbstractPathPropertySupport {
                 if (PathUtils.isFilePath(result) && !result.startsWith("file:")) {
                     result = new File(result).toURI().toURL().toString();
                 } else {
-                    result = new URL(result).toString();
+                    result = Urls.create(result, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).toString();
                 }
             } catch (MalformedURLException e) {
                 SoapUI.logError(e);
@@ -134,7 +136,7 @@ public abstract class AbstractPathPropertySupport {
         String source = expand();
         if (StringUtils.hasContent(source)) {
             try {
-                new URL(source);
+                Urls.create(source, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             } catch (Exception e) {
                 File file = new File(source);
                 if (!file.exists()) {
@@ -167,7 +169,7 @@ public abstract class AbstractPathPropertySupport {
         String source = expand();
         if (StringUtils.hasContent(source)) {
             try {
-                new URL(source);
+                Urls.create(source, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             } catch (Exception e) {
                 File file = new File(source);
                 if (!file.exists() || !file.isDirectory()) {

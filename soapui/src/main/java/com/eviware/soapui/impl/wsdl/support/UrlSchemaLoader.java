@@ -18,6 +18,8 @@ package com.eviware.soapui.impl.wsdl.support;
 
 import com.eviware.soapui.impl.wsdl.support.xsd.SchemaLoader;
 import com.eviware.soapui.support.xml.XmlUtils;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 
@@ -32,7 +34,7 @@ public class UrlSchemaLoader implements SchemaLoader {
 
     public XmlObject loadXmlObject(String wsdlUrl, XmlOptions options) throws Exception {
         // return XmlObject.Factory.parse( new URL( wsdlUrl ), options );
-        return XmlUtils.createXmlObject(new URL(wsdlUrl), options);
+        return XmlUtils.createXmlObject(Urls.create(wsdlUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS), options);
     }
 
     public String getBaseURI() {
